@@ -288,6 +288,14 @@ Route::group('admin', function() {
         ]
     ])->middleware(['AdminAuth', 'AdminPermission', 'AdminLog']);
 
+    /** 课题管理 */
+    Route::group('Topic',[
+        'index' => [
+            'admin/Topic/index',
+            ['method' => 'get']
+        ],
+    ]);
+
     //MISS路由定义
     Route::miss('admin/Miss/index');
 })->middleware('AdminResponse');
