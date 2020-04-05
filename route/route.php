@@ -290,11 +290,17 @@ Route::group('admin', function() {
 
     /** 课题管理 */
     Route::group('Topic',[
+        //超管课题列表
         'index' => [
             'admin/Topic/index',
             ['method' => 'get']
         ],
-    ]);
+        //指导老师创建课题
+        'add' => [
+            'admin/Topic/add',
+            ['method' => 'post']
+        ],
+    ])->middleware(['AdminAuth', 'AdminPermission', 'AdminLog']);;
 
     //MISS路由定义
     Route::miss('admin/Miss/index');
