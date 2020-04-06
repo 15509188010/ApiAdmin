@@ -315,6 +315,11 @@ Route::group('admin', function() {
             'admin/Topic/editTopic',
             ['method' => 'post']
         ],
+        //指导老师删除课题
+        'del'          => [
+            'admin/Topic/del',
+            ['method' => 'get']
+        ],
     ])->middleware(['AdminAuth', 'AdminPermission', 'AdminLog']);;
 
     //MISS路由定义

@@ -22,7 +22,7 @@ class Topic extends Base
         $limit = $this->request->get('size', config('apiadmin.ADMIN_LIST_DEFAULT'));
         $start = $this->request->get('page', 1);
         $objAdminTopic = new AdminTopic();
-        $dbResult = $objAdminTopic->where('enableStatus', StatusCode::$stand)->order('createTime DESC')
+        $dbResult = $objAdminTopic->where('enableStatus', StatusCode::$stand)->where('deleteStatus',StatusCode::$stand)->order('createTime DESC')
             ->paginate($limit, false, ['page' => $start])->toArray();
         return $this->buildSuccess([
             'list'  => $dbResult['data'],
@@ -81,7 +81,7 @@ class Topic extends Base
         $limit = $this->request->get('size', config('apiadmin.ADMIN_LIST_DEFAULT'));
         $start = $this->request->get('page', 1);
         $objAdminTopic = new AdminTopic();
-        $dbResult = $objAdminTopic->where('addPeopleId', $this->userInfo['id'])->order('createTime DESC')
+        $dbResult = $objAdminTopic->where('addPeopleId', $this->userInfo['id'])->where('deleteStatus',StatusCode::$stand)->order('createTime DESC')
             ->paginate($limit, false, ['page' => $start])->toArray();
         return $this->buildSuccess([
             'list'  => $dbResult['data'],
@@ -133,6 +133,20 @@ class Topic extends Base
         if ($res === false) {
             return $this->buildFailed(ReturnCode::DB_SAVE_ERROR);
         }
+        return $this->buildSuccess();
+    }
+
+    /**
+     * 指导老师删除选题
+     * @return array
+     */
+    public function del()
+    {
+        $id = $this->request->get('id');
+        if (!$id) {
+            return $this->buildFailed(ReturnCode::EMPTY_PARAMS, '缺少必要参数');
+        }
+        AdminTopic::update(['deleteStatus'=>StatusCode::$delete],['id'=>$id]);
         return $this->buildSuccess();
     }
 }
