@@ -300,6 +300,21 @@ Route::group('admin', function() {
             'admin/Topic/add',
             ['method' => 'post']
         ],
+        //指导老师我的课题
+        'myList' => [
+            'admin/Topic/myList',
+            ['method'=> 'get']
+        ],
+        //指导老师课题的启用/禁用
+        'updateEnableStatus' => [
+            'admin/Topic/updateEnableStatus',
+            ['method' => 'get']
+        ],
+        //指导老师编辑课题
+        'editTopic' => [
+            'admin/Topic/editTopic',
+            ['method' => 'post']
+        ],
     ])->middleware(['AdminAuth', 'AdminPermission', 'AdminLog']);;
 
     //MISS路由定义
